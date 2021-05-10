@@ -1,6 +1,5 @@
 package ru.agladkov.navigationexample.screens
 
-import android.os.Bundle
 import android.os.Parcelable
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -20,10 +19,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.os.bundleOf
 import androidx.navigation.NavController
-import androidx.navigation.compose.navigate
 import kotlinx.android.parcel.Parcelize
 import ru.agladkov.navigationexample.R
+import ru.agladkov.navigationexample.navigation.Router
 import ru.agladkov.navigationexample.navigation.Screen
+import ru.agladkov.navigationexample.navigation.navigate
 import java.util.UUID
 
 @Parcelize
@@ -40,13 +40,16 @@ data class UserModel(
 
 @Composable
 fun ListScreen(
-    onNavigate: (Screen, Pair<String, Parcelable>?) -> Unit
+    router: Router?,
+    navController: NavController
 ) {
     val testData = listOf(
         UserModel(username = "Ivan Ivan"),
         UserModel(username = "Steve Jobs", education = "MIT"),
         UserModel(username = "Bill Gates"),
-        UserModel(username = "Mark Zuckerberg", education = "Harvard")
+        UserModel(username = "Mark Zuckerberg", education = "Harvard"),
+        UserModel(username = "Jack Wharton"),
+        UserModel(username = "Roman Elizarov", education = "SPBGU")
     )
 
     Scaffold(
@@ -59,9 +62,11 @@ fun ListScreen(
         LazyColumn {
             testData.forEach { user ->
                 item {
-                    Row(modifier = Modifier.fillMaxWidth().clickable {
-                        onNavigate.invoke(Screen.User, Pair(UserModel.USER, user))
-                    }) {
+                    Row(modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable {
+                            navController.navigate(Screen.User.screenName, bundleOf(UserModel.USER to user))
+                        }) {
                         Column(modifier = Modifier.padding(16.dp)) {
                             Text(text = user.username, fontWeight = FontWeight.Medium, color = Color.Blue)
                             user.education?.let {
@@ -74,9 +79,8 @@ fun ListScreen(
 
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Text(stringResource(id = R.string.action_message), color = Color.Blue, modifier = Modifier.clickable {
-                                    onNavigate.invoke(Screen.NewMessage, null)
+                                    router?.routeTo(Screen.NewMessage.screenName)
                                 })
-//                                Text("•", modifier = Modifier.padding(start = 16.dp, end = 16.dp), color = Color.Blue)
                             }
                         }
                     }

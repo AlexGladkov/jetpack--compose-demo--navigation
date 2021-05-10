@@ -3,8 +3,6 @@ package ru.agladkov.navigationexample
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.Crossfade
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Surface
@@ -14,8 +12,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import ru.agladkov.navigationexample.navigation.EnterAnimation
+import ru.agladkov.navigationexample.navigation.PresentModal
 import ru.agladkov.navigationexample.navigation.Screen
+import ru.agladkov.navigationexample.navigation.navigate
+import ru.agladkov.navigationexample.navigation.createExternalRouter
 import ru.agladkov.navigationexample.screens.MainScreen
 import ru.agladkov.navigationexample.screens.NewMessageScreen
 import ru.agladkov.navigationexample.ui.theme.NavigationExampleTheme
@@ -31,11 +31,15 @@ class MainActivity : ComponentActivity() {
                     val navController = rememberNavController()
 
                     NavHost(navController = navController, startDestination = Screen.Main.screenName) {
-                        composable(Screen.Main.screenName) { MainScreen(navController) }
+                        composable(Screen.Main.screenName) {
+                            MainScreen(
+                                createExternalRouter { screen, params ->
+                                    navController.navigate(screen, params)
+                                }
+                            )
+                        }
                         composable(Screen.NewMessage.screenName) {
-                            EnterAnimation {
-                                NewMessageScreen()
-                            }
+                            PresentModal { NewMessageScreen() }
                         }
                     }
                 }
