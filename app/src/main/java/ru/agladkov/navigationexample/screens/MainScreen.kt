@@ -9,7 +9,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
-import androidx.navigation.compose.navigate
 import androidx.navigation.compose.rememberNavController
 import ru.agladkov.navigationexample.navigation.Router
 import ru.agladkov.navigationexample.navigation.Screen
@@ -35,7 +34,7 @@ fun MainScreen(
                                 // Pop up to the start destination of the graph to
                                 // avoid building up a large stack of destinations
                                 // on the back stack as users select items
-                                popUpTo = navController.graph.startDestination
+                                popUpTo = navController.graph.startDestinationId
 
                                 // Avoid multiple copies of the same destination when
                                 // reselecting the same item

@@ -6,7 +6,6 @@ import android.os.Parcelable
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
-import androidx.navigation.compose.navigate
 
 fun NavController.navigate(route: String, param: Pair<String, Parcelable>?, builder: NavOptionsBuilder.() -> Unit = {}) {
     param?.let { this.currentBackStackEntry?.arguments?.putParcelable(param.first, param.second)  }
