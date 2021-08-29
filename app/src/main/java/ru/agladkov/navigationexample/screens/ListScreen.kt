@@ -49,6 +49,9 @@ fun ListScreen(
         UserModel(username = "Bill Gates"),
         UserModel(username = "Mark Zuckerberg", education = "Harvard"),
         UserModel(username = "Jack Wharton"),
+        UserModel(username = "Roman Elizarov", education = "SPBGU"),
+        UserModel(username = "Mark Zuckerberg", education = "Harvard"),
+        UserModel(username = "Jack Wharton"),
         UserModel(username = "Roman Elizarov", education = "SPBGU")
     )
 
