@@ -8,17 +8,8 @@ import androidx.navigation.NavHostController
 import androidx.navigation.NavOptionsBuilder
 import androidx.navigation.compose.navigate
 
-fun NavController.navigate(route: String, param: Pair<String, Parcelable>?, builder: NavOptionsBuilder.() -> Unit = {}) {
+fun NavController.navigate(route: String, vararg params: Pair<String, Parcelable>?, builder: NavOptionsBuilder.() -> Unit = {}) {
     param?.let { this.currentBackStackEntry?.arguments?.putParcelable(param.first, param.second)  }
-
-    navigate(route, builder)
-}
-
-fun NavController.navigate(route: String, params: List<Pair<String, Parcelable>>?, builder: NavOptionsBuilder.() -> Unit = {}) {
-    params?.let {
-        val arguments = this.currentBackStackEntry?.arguments
-        params.forEach { arguments?.putParcelable(it.first, it.second) }
-    }
 
     navigate(route, builder)
 }
